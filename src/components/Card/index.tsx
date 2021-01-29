@@ -1,6 +1,14 @@
+import { FC } from 'react';
+
+import IMovie from '../../interfaces/IMovie';
+
 import './styles.css';
 
-const Card = () => {
+interface CardProps {
+  movie: IMovie;
+}
+//=============================================================================
+const Card: FC<CardProps> = () => {
   return <section className="card-container"></section>;
 };
 
