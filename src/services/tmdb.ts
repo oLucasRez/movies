@@ -4,10 +4,11 @@ import IDiscoverMoviesResponse from '../interfaces/IDiscoverMoviesResponse';
 import IGenre from '../interfaces/IGenre';
 
 import IMovie from '../interfaces/IMovie';
-import IMovieResponse from '../interfaces/IMovieDetailsResponse';
+import IMovieResponse from '../interfaces/IMovieResponse';
 import ISpokenLanguages from '../interfaces/ISpokenLanguages';
 
 import movieMock from '../mock/movie';
+import { getGenresByIDs } from '../utils/getGenre';
 
 const tmdb = axios.create({
   baseURL: `https://api.themoviedb.org/3`
@@ -44,8 +45,8 @@ export async function searchMoviesByTitle(
 //-----------------------------------------------------------------------------
 export async function searchMoviesByGenre(
   genres: IGenre[],
-  page: number
-): Promise<IDiscoverMoviesResponse | undefined> {
+  page?: number
+): Promise<IMovie[] | undefined> {
   if (!genres.length) return;
 
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -59,11 +60,13 @@ export async function searchMoviesByGenre(
       `&language=pt` +
       `&sort_by=popularity.desc` +
       `&include_adult=true` +
-      `&page=${page}` +
+      `&page=${page ?? 1}` +
       `&with_genres=${genresString}`
   );
 
-  return response.data;
+  const movies = parseMovies(response.data.results);
+
+  return movies;
 }
 //-----------------------------------------------------------------------------
 export async function getAllGenres(): Promise<IGenre[]> {
@@ -76,19 +79,37 @@ export async function getAllGenres(): Promise<IGenre[]> {
   return response.data;
 }
 //-----------------------------------------------------------------------------
-function parseMovie(movieResponse: IMovieResponse): IMovie {
+async function parseMovies(
+  moviesResponse: IMovieResponse[]
+): Promise<IMovie[]> {
+  const promises = moviesResponse.map((movieResponse) =>
+    parseMovie(movieResponse)
+  );
+
+  const movies = await Promise.all(promises);
+
+  return movies;
+}
+//-----------------------------------------------------------------------------
+async function parseMovie(movieResponse: IMovieResponse): Promise<IMovie> {
+  const {
+    id,
+    poster_path,
+    title,
+    vote_average,
+    release_date,
+    overview,
+    genre_ids
+  } = movieResponse;
+
   return {
-    posterPath: getImage(movieResponse.poster_path),
-    title: movieResponse.title,
-    voteAverage: movieResponse.vote_average,
-    releaseDate: movieResponse.release_date,
-    overview: movieResponse.overview,
-    genres: getGenreNames(movieResponse.genres),
-    status: movieResponse.status,
-    languages: getLanguageNames(movieResponse.spoken_languages),
-    runtime: movieResponse.runtime,
-    budget: movieResponse.budget,
-    revenue: movieResponse.revenue
+    id,
+    posterPath: getImage(poster_path),
+    title,
+    voteAverage: vote_average,
+    releaseDate: release_date,
+    overview,
+    genres: await getGenresByIDs(genre_ids ?? [])
   };
 }
 //-----------------------------------------------------------------------------
@@ -96,15 +117,15 @@ function getImage(path?: string): string | undefined {
   return path ? `https://image.tmdb.org/t/p/w500${path}` : undefined;
 }
 //-----------------------------------------------------------------------------
-function getGenreNames(genres?: IGenre[]): string[] | undefined {
-  if (!genres) return;
+// function getGenreNames(genres?: IGenre[]): string[] | undefined {
+//   if (!genres) return;
 
-  let genresName: string[] = [];
+//   let genresName: string[] = [];
 
-  genres.forEach((genre) => genresName.push(genre.name));
+//   genres.forEach((genre) => genresName.push(genre.name));
 
-  return genresName;
-}
+//   return genresName;
+// }
 //-----------------------------------------------------------------------------
 function getLanguageNames(
   languages?: ISpokenLanguages[]

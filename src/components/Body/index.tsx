@@ -4,17 +4,23 @@ import IMovie from '../../interfaces/IMovie';
 
 import Card from '../Card';
 
-// import { searchMovies } from '../../services/tmdb';
+import { searchMoviesByGenre } from '../../services/tmdb';
 
 import './styles.css';
+import { getGenreByID, getGenresByIDs } from '../../utils/getGenre';
 //=============================================================================
 const Body = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
 
   useEffect(() => {
-    // searchMovies('thor').then((_movies) => {
-    //   setMovies(_movies);
-    // });
+    (async () => {
+      const genres = await getGenresByIDs([16, 28]);
+
+      if (genres)
+        searchMoviesByGenre(genres).then((_movies) => {
+          if (_movies) setMovies(_movies);
+        });
+    })();
   }, []);
 
   return (

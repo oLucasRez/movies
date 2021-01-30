@@ -1,8 +1,30 @@
-import IMovie from '../interfaces/IMovie';
+import IMovieDetails from '../interfaces/IMovieDetails';
 
-const movie: IMovie = {
+const movie: IMovieDetails = {
+  id: 284053,
   budget: 180000000,
-  genres: ['Ação', 'Aventura', 'Comédia', 'Fantasia', 'Ficção científica'],
+  genres: [
+    {
+      id: 28,
+      name: 'Ação'
+    },
+    {
+      id: 12,
+      name: 'Aventura'
+    },
+    {
+      id: 35,
+      name: 'Comédia'
+    },
+    {
+      id: 14,
+      name: 'Fantasia'
+    },
+    {
+      id: 878,
+      name: 'Ficção científica'
+    }
+  ],
   languages: ['English'],
   overview:
     'Thor encontra-se preso do outro lado do universo, sem o seu martelo poderoso, numa corrida contra o tempo para voltar a Asgard e impedir Ragnarok - a destruição do seu mundo e o fim da civilização Asgardiana – que se encontra nas mãos de uma nova e poderosa ameaça, a implacável Hela. Mas primeiro, Thor precisa de sobreviver a uma luta mortal de gladiadores, que o coloca contra um seu ex-aliado e companheiro Vingador – Hulk.',

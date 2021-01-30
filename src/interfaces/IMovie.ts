@@ -1,15 +1,13 @@
+import IGenre from './IGenre';
+
 interface IMovie {
+  id: number;
   posterPath?: string;
   title?: string;
   voteAverage?: number;
   releaseDate?: string;
   overview?: string;
-  genres?: string[];
-  status?: string;
-  languages?: string[];
-  runtime?: number;
-  budget?: number;
-  revenue?: number;
+  genres?: IGenre[];
 }
 
 export default IMovie;
