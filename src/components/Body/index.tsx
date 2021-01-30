@@ -4,7 +4,7 @@ import IMovie from '../../interfaces/IMovie';
 
 import Card from '../Card';
 
-import { searchMovies } from '../../services/tmdb';
+// import { searchMovies } from '../../services/tmdb';
 
 import './styles.css';
 //=============================================================================
@@ -12,9 +12,9 @@ const Body = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
 
   useEffect(() => {
-    searchMovies('thor').then((_movies) => {
-      setMovies(_movies);
-    });
+    // searchMovies('thor').then((_movies) => {
+    //   setMovies(_movies);
+    // });
   }, []);
 
   return (
