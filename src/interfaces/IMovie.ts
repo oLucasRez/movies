@@ -4,7 +4,7 @@ interface IMovie {
   id: number;
   posterPath?: string;
   title?: string;
-  voteAverage?: number;
+  voteAverage?: string;
   releaseDate?: string;
   overview?: string;
   genres?: IGenre[];

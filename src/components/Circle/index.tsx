@@ -10,7 +10,11 @@ const Circle: FC<CircleProps> = ({ children, size, ...props }) => {
   return (
     <div
       {...props}
-      style={{ width: size + 'rem', height: size + 'rem' }}
+      style={{
+        width: size + 'rem',
+        height: size + 'rem',
+        fontSize: size / 3 + 'rem'
+      }}
       id="circle-container"
     >
       <div className="title">{children}</div>

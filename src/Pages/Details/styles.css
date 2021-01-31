@@ -1,0 +1,112 @@
+.details-container {
+  max-width: var(--size-10);
+  margin: var(--size-3) var(--size-2) 0;
+
+  background: var(--gray-0);
+}
+
+.details-container header {
+  padding: var(--size-1) var(--size-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  background: var(--gray-2);
+}
+
+.details-container header h2 {
+  font-size: var(--size-3);
+  color: var(--blue);
+}
+
+.details-container header p {
+  color: var(--gray-3);
+  opacity: 0.6;
+}
+
+.details-container main {
+  min-height: var(--size-8);
+
+  display: flex;
+}
+
+.details-container main .description-container {
+  padding: var(--size-3);
+
+  flex: 2;
+}
+
+.details-container main .description-container h1 {
+  margin-bottom: var(--size-0);
+
+  font-size: var(--size-2);
+  color: var(--blue);
+  border-bottom: 1px solid var(--lightblue);
+}
+
+.details-container main .description-container h1 + p {
+  margin-bottom: var(--size-3);
+}
+
+.details-container main .description-container p {
+  color: var(--gray-3);
+}
+
+.details-container main .description-container .info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-container main .description-container .info-container div {
+  text-align: center;
+}
+
+.details-container main .description-container .info-container div + div {
+  margin-left: var(--size-1);
+}
+
+.details-container main .description-container .info-container div h1 {
+  margin-bottom: 0;
+
+  border: none;
+}
+
+.details-container main .description-container .info-container div p {
+  margin-bottom: 0;
+}
+
+.details-container main .description-container .tagvote-container {
+  margin-top: var(--size-3);
+
+  display: flex;
+  align-items: flex-start;
+}
+
+.details-container
+  main
+  .description-container
+  .tagvote-container
+  .tags-container {
+  height: 100%;
+  flex: 5;
+  display: flex;
+  align-items: flex-start;
+}
+
+.details-container
+  main
+  .description-container
+  .tagvote-container
+  .vote-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details-container main .image-container {
+  flex: 1;
+
+  background-position: center;
+  background-size: cover;
+}

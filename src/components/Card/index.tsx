@@ -1,7 +1,9 @@
 import { FC, LiHTMLAttributes } from 'react';
 
 import IMovie from '../../interfaces/IMovie';
+
 import Circle from '../Circle';
+import Tag from '../Tag';
 
 import './styles.css';
 
@@ -12,25 +14,6 @@ interface CardProps extends LiHTMLAttributes<HTMLLIElement> {
 const Card: FC<CardProps> = (props) => {
   const { movie } = props;
 
-  const getVoteAverage = () => {
-    if (movie.voteAverage) return movie.voteAverage * 10 + '%';
-    else return 'NA';
-  };
-
-  const getReleaseDate = () => {
-    if (movie.releaseDate) {
-      const releaseDateArray = movie.releaseDate.split('-');
-      const releaseDate =
-        releaseDateArray[2] +
-        '/' +
-        releaseDateArray[1] +
-        '/' +
-        releaseDateArray[0];
-
-      return releaseDate;
-    } else return 'NA';
-  };
-
   console.log('a');
 
   return (
@@ -40,24 +23,22 @@ const Card: FC<CardProps> = (props) => {
         style={{
           backgroundImage: `url(${movie.posterPath})`
         }}
-      ></div>
+      />
       <div className="info-container">
         <header>
           <Circle className="vote-container" size={5}>
-            {getVoteAverage()}
+            {movie.voteAverage}
           </Circle>
           <div className="text">
             <h2 className="title">{movie.title}</h2>
-            <h1>{getReleaseDate()}</h1>
+            <h1>{movie.releaseDate}</h1>
           </div>
         </header>
         <main>
           <p>{movie.overview}</p>
-          <div className="tag-container">
+          <div className="tags-container">
             {movie.genres?.map((genre) => (
-              <div className="title" key={genre.id}>
-                {genre.name}
-              </div>
+              <Tag key={genre.id}>{genre.name}</Tag>
             ))}
           </div>
         </main>

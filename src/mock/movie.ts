@@ -34,7 +34,7 @@ const movie: IMovieDetails = {
   runtime: 131,
   status: 'Released',
   title: 'Thor: Ragnarok',
-  voteAverage: 7.6
+  voteAverage: '76%'
 };
 
 export default movie;

@@ -96,25 +96,8 @@
   overflow-y: scroll;
 }
 
-.card-container .tag-container {
-  display: flex;
-}
-
-.card-container .tag-container div {
-  height: var(--size-2);
+.card-container .tags-container {
   margin-top: var(--size-0);
-  padding: 0 var(--size-0);
 
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: white;
-  border-radius: 1001px;
-  border: 1px solid var(--blue);
-  color: var(--blue);
-}
-
-.card-container .tag-container div + div {
-  margin-left: var(--size-0);
 }

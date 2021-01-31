@@ -105,8 +105,8 @@ async function parseMovie(movieResponse: IMovieResponse): Promise<IMovie> {
     id,
     posterPath: getImage(poster_path),
     title,
-    voteAverage: vote_average,
-    releaseDate: release_date,
+    voteAverage: formatVoteAverage(vote_average),
+    releaseDate: formatReleaseDate(release_date),
     overview,
     genres: await getGenresByIDs(genre_ids ?? [])
   };
@@ -114,6 +114,25 @@ async function parseMovie(movieResponse: IMovieResponse): Promise<IMovie> {
 //-----------------------------------------------------------------------------
 function getImage(path?: string): string | undefined {
   return path ? `https://image.tmdb.org/t/p/w500${path}` : undefined;
+}
+//-----------------------------------------------------------------------------
+function formatReleaseDate(releaseDate: string | undefined): string {
+  if (releaseDate) {
+    const releaseDateArray = releaseDate.split('-');
+    const newReleaseDate =
+      releaseDateArray[2] +
+      '/' +
+      releaseDateArray[1] +
+      '/' +
+      releaseDateArray[0];
+
+    return newReleaseDate;
+  } else return 'NA';
+}
+//-----------------------------------------------------------------------------
+function formatVoteAverage(voteAverage: number | undefined): string {
+  if (voteAverage) return voteAverage * 10 + '%';
+  else return 'NA';
 }
 //-----------------------------------------------------------------------------
 // function getGenreNames(genres?: IGenre[]): string[] | undefined {
