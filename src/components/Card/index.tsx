@@ -1,4 +1,5 @@
 import { FC, LiHTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 
 import IMovie from '../../interfaces/IMovie';
 
@@ -25,7 +26,7 @@ const Card: FC<CardProps> = (props) => {
         }}
       />
       <div className="info-container">
-        <header>
+        <Link className="header" to={`/${movie.id}`}>
           <Circle className="vote-container" size={5}>
             {movie.voteAverage}
           </Circle>
@@ -33,7 +34,7 @@ const Card: FC<CardProps> = (props) => {
             <h2 className="title">{movie.title}</h2>
             <h1>{movie.releaseDate}</h1>
           </div>
-        </header>
+        </Link>
         <main>
           <p>{movie.overview}</p>
           <div className="tags-container">

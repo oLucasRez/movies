@@ -4,7 +4,10 @@ import IDiscoverMoviesResponse from '../interfaces/IDiscoverMoviesResponse';
 import IGenre from '../interfaces/IGenre';
 
 import IMovie from '../interfaces/IMovie';
+import IMovieDetails from '../interfaces/IMovieDetails';
+import IMovieDetailsResponse from '../interfaces/IMovieDetailsResponse';
 import IMovieResponse from '../interfaces/IMovieResponse';
+import ISpokenLanguages from '../interfaces/ISpokenLanguages';
 
 import movieMock from '../mock/movie';
 import { getGenresByIDs } from '../utils/getGenre';
@@ -78,6 +81,18 @@ export async function getAllGenres(): Promise<IGenre[]> {
   return response.data;
 }
 //-----------------------------------------------------------------------------
+export async function getMovieDetails(movieID: number): Promise<IMovieDetails> {
+  const apiKey = process.env.REACT_APP_API_KEY;
+
+  const response = await tmdb.get<IMovieDetailsResponse>(
+    `movie/${movieID}?api_key=${apiKey}&language=pt`
+  );
+
+  const movieDetails = parseMovieDetails(response.data);
+
+  return movieDetails;
+}
+//-----------------------------------------------------------------------------
 async function parseMovies(
   moviesResponse: IMovieResponse[]
 ): Promise<IMovie[]> {
@@ -109,6 +124,40 @@ async function parseMovie(movieResponse: IMovieResponse): Promise<IMovie> {
     releaseDate: formatReleaseDate(release_date),
     overview,
     genres: await getGenresByIDs(genre_ids ?? [])
+  };
+}
+//-----------------------------------------------------------------------------
+function parseMovieDetails(
+  movieDetailsResponse: IMovieDetailsResponse
+): IMovieDetails {
+  const {
+    id,
+    poster_path,
+    title,
+    vote_average,
+    release_date,
+    overview,
+    genres,
+    status,
+    spoken_languages,
+    runtime,
+    budget,
+    revenue
+  } = movieDetailsResponse;
+
+  return {
+    id,
+    posterPath: getImage(poster_path),
+    title,
+    voteAverage: formatVoteAverage(vote_average),
+    releaseDate: formatReleaseDate(release_date),
+    overview,
+    genres,
+    status,
+    languages: getLanguageNames(spoken_languages),
+    runtime,
+    budget,
+    revenue
   };
 }
 //-----------------------------------------------------------------------------
@@ -145,14 +194,14 @@ function formatVoteAverage(voteAverage: number | undefined): string {
 //   return genresName;
 // }
 //-----------------------------------------------------------------------------
-// function getLanguageNames(
-//   languages?: ISpokenLanguages[]
-// ): string[] | undefined {
-//   if (!languages) return;
+function getLanguageNames(
+  languages?: ISpokenLanguages[]
+): string[] | undefined {
+  if (!languages) return;
 
-//   let languagesName: string[] = [];
+  let languagesName: string[] = [];
 
-//   languages.forEach((language) => languagesName.push(language.name));
+  languages.forEach((language) => languagesName.push(language.name));
 
-//   return languagesName;
-// }
+  return languagesName;
+}

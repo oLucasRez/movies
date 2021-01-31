@@ -30,83 +30,27 @@
   display: flex;
 }
 
-.details-container main .description-container {
-  padding: var(--size-3);
-
+.details-container main #description {
   flex: 2;
 }
 
-.details-container main .description-container h1 {
-  margin-bottom: var(--size-0);
-
-  font-size: var(--size-2);
-  color: var(--blue);
-  border-bottom: 1px solid var(--lightblue);
+.details-container main img {
+  width: auto;
+  width: 25rem;
+  height: auto;
+  height: 38rem;
 }
 
-.details-container main .description-container h1 + p {
-  margin-bottom: var(--size-3);
+@media only screen and (max-width: 1080px) {
+  .details-container main {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 }
 
-.details-container main .description-container p {
-  color: var(--gray-3);
-}
-
-.details-container main .description-container .info-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.details-container main .description-container .info-container div {
-  text-align: center;
-}
-
-.details-container main .description-container .info-container div + div {
-  margin-left: var(--size-1);
-}
-
-.details-container main .description-container .info-container div h1 {
-  margin-bottom: 0;
-
-  border: none;
-}
-
-.details-container main .description-container .info-container div p {
-  margin-bottom: 0;
-}
-
-.details-container main .description-container .tagvote-container {
-  margin-top: var(--size-3);
-
-  display: flex;
-  align-items: flex-start;
-}
-
-.details-container
-  main
-  .description-container
-  .tagvote-container
-  .tags-container {
-  height: 100%;
-  flex: 5;
-  display: flex;
-  align-items: flex-start;
-}
-
-.details-container
-  main
-  .description-container
-  .tagvote-container
-  .vote-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.details-container main .image-container {
-  flex: 1;
-
-  background-position: center;
-  background-size: cover;
+@media only screen and (max-width: 560px) {
+  .details-container {
+    margin: 0;
+    margin-top: var(--size-3);
+  }
 }
