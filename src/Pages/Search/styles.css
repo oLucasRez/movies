@@ -1,4 +1,4 @@
-.body-container {
+.search-container {
   width: 100%;
   max-width: var(--size-10);
   padding: 0 var(--size-4);
@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-.body-container input {
+.search-container input {
   width: 100%;
   height: var(--size-3);
   margin: var(--size-3) 0;
@@ -20,35 +20,35 @@
   color: var(--blue);
 }
 
-.body-container ul {
+.search-container ul {
   width: 100%;
   list-style-type: none;
 }
 
-.body-container ::placeholder {
+.search-container ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: var(--blue);
   opacity: 0.75; /* Firefox */
 }
 
-.body-container :-ms-input-placeholder {
+.search-container :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: var(--blue);
   opacity: 0.75;
 }
 
-.body-container ::-ms-input-placeholder {
+.search-container ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: var(--blue);
   opacity: 0.75;
 }
 
 @media only screen and (max-width: 560px) {
-  .body-container {
+  .search-container {
     padding: 0 var(--size-2);
   }
 
-  .body-container input {
+  .search-container input {
     margin: var(--size-1) 0;
   }
 }
