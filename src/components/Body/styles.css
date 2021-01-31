@@ -16,8 +16,13 @@
   padding: var(--size-0) var(--size-1);
 
   border-radius: 1001px;
-  background: var(--gray);
+  background: var(--gray-1);
   color: var(--blue);
+}
+
+.body-container ul {
+  width: 100%;
+  list-style-type: none;
 }
 
 .body-container ::placeholder {

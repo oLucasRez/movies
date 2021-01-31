@@ -7,7 +7,7 @@ import Card from '../Card';
 import { searchMoviesByGenre } from '../../services/tmdb';
 
 import './styles.css';
-import { getGenreByID, getGenresByIDs } from '../../utils/getGenre';
+import { getGenresByIDs } from '../../utils/getGenre';
 //=============================================================================
 const Body = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
@@ -29,9 +29,11 @@ const Body = () => {
         className="title"
         placeholder="Busque um filme por nome, ano ou gênero"
       />
-      {movies.map((movie, index) => (
-        <Card key={index} movie={movie} />
-      ))}
+      <ul>
+        {movies.map((movie, index) => (
+          <Card key={index} movie={movie} />
+        ))}
+      </ul>
     </main>
   );
 };

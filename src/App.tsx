@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
   return (
     <div className="app-container">
-      <header className="title">Movies</header>
+      <header className="app-header title">Movies</header>
       <div id="space" />
       <Body />
     </div>

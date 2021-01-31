@@ -5,7 +5,7 @@
   justify-items: center;
 }
 
-.app-container header {
+.app-container .app-header {
   width: 100%;
   height: var(--size-4);
 

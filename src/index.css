@@ -24,9 +24,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-weight: 500;
 
   --blue: #116193;
-  --gray: #ebebeb;
+  --darkblue: #11527b;
+  --gray-0: #f2f2f2;
+  --gray-1: #ebebeb;
+  --gray-2: #e6e6e6;
+  --gray-3: gray;
   --lightblue: #00e8e4;
 
   --size-0: 0.618rem;

@@ -29,17 +29,17 @@ export async function getGenreByID(
   return genre;
 }
 //-----------------------------------------------------------------------------
-function everyGenresFoundInStorage(genreIDs: number[]): boolean {
-  const storageGenres = getStorageGenres();
+// function everyGenresFoundInStorage(genreIDs: number[]): boolean {
+//   const storageGenres = getStorageGenres();
 
-  if (!storageGenres.length) return false;
+//   if (!storageGenres.length) return false;
 
-  const everyGenresFound = genreIDs.every((genreID) =>
-    genreFoundInStorage(genreID)
-  );
+//   const everyGenresFound = genreIDs.every((genreID) =>
+//     genreFoundInStorage(genreID)
+//   );
 
-  return everyGenresFound;
-}
+//   return everyGenresFound;
+// }
 //-----------------------------------------------------------------------------
 function genreFoundInStorage(genreID: number): boolean {
   const storageGenres = getStorageGenres();

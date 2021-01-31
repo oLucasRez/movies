@@ -5,7 +5,6 @@ import IGenre from '../interfaces/IGenre';
 
 import IMovie from '../interfaces/IMovie';
 import IMovieResponse from '../interfaces/IMovieResponse';
-import ISpokenLanguages from '../interfaces/ISpokenLanguages';
 
 import movieMock from '../mock/movie';
 import { getGenresByIDs } from '../utils/getGenre';
@@ -127,14 +126,14 @@ function getImage(path?: string): string | undefined {
 //   return genresName;
 // }
 //-----------------------------------------------------------------------------
-function getLanguageNames(
-  languages?: ISpokenLanguages[]
-): string[] | undefined {
-  if (!languages) return;
+// function getLanguageNames(
+//   languages?: ISpokenLanguages[]
+// ): string[] | undefined {
+//   if (!languages) return;
 
-  let languagesName: string[] = [];
+//   let languagesName: string[] = [];
 
-  languages.forEach((language) => languagesName.push(language.name));
+//   languages.forEach((language) => languagesName.push(language.name));
 
-  return languagesName;
-}
+//   return languagesName;
+// }
