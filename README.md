@@ -16,7 +16,7 @@ Digite o comando `yarn`;
 
 Após finalizado, crie um arquivo na raíz do projeto chamado `.env` e dentro deste arquivo digite o seguinte conteúdo:
 
-# REACT_APP_API_KEY=<<API Key>>
+### `REACT_APP_API_KEY=<<API Key>>`
   
 * "`<<API Key>>`" deve ser substituído pela chave supracitada;
 
