@@ -33,17 +33,19 @@ const Details = () => {
           <Description id="description" movie={movie} />
           <img src={movie.posterPath} alt={movie.title} />
         </main>
-        <div className="iframe-container">
-          <iframe
-            title={movie.title}
-            width="560"
-            height="315"
-            src={movie.video}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
+        {movie.video ? (
+          <div className="iframe-container">
+            <iframe
+              title={movie.title}
+              width="560"
+              height="315"
+              src={movie.video}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        ) : null}
       </div>
     );
   else return <div>loading...</div>;

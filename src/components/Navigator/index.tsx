@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useContext, useState } from 'react';
+import { FC, HTMLAttributes, useContext } from 'react';
 
 import PageContext from '../../contexts/PageContext';
 import Circle from '../Circle';
@@ -43,6 +43,7 @@ const Navigator: FC<NavigatorProps> = ({ totalPages, ...props }) => {
           );
         return (
           <div
+            key={index}
             className="side-number title"
             onClick={() => {
               if (setCurrentPage) setCurrentPage(number);

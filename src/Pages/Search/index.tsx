@@ -5,7 +5,7 @@ import IMovie from '../../interfaces/IMovie';
 import Card from '../../components/Card';
 import Navigator from '../../components/Navigator';
 
-import { searchMoviesByGenre } from '../../services/tmdb';
+import { searchMoviesByGenre, searchMoviesByTitle } from '../../services/tmdb';
 
 import { getGenreByName } from '../../utils/getGenre';
 
@@ -29,7 +29,8 @@ const Search = () => {
     (async () => {
       if (query.length > 1) {
         const genres = await getGenreByName(query);
-        if (genres) searchWithGenre(genres);
+        if (genres?.length) searchWithGenre(genres);
+        else searchWithTitle(query);
       }
     })();
   }, [query]);
@@ -49,6 +50,12 @@ const Search = () => {
           setTotalPages(0);
         }
       });
+  };
+
+  const searchWithTitle = async (query: string) => {
+    const _movies = await searchMoviesByTitle(query);
+
+    setMovies(_movies.movies);
   };
 
   // const getMoviePage = () => {

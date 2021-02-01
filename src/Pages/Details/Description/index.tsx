@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useEffect, useState } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
 import IMovieDetails from '../../../interfaces/IMovieDetails';
 
@@ -6,8 +6,6 @@ import Circle from '../../../components/Circle';
 import Tag from '../../../components/Tag';
 
 import './styles.css';
-import { getMovieDetails } from '../../../services/tmdb';
-import IMovie from '../../../interfaces/IMovie';
 
 interface DescriptionProps extends HTMLAttributes<HTMLElement> {
   movie: IMovieDetails;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import 'dotenv/config';
-import IDiscoverMoviesResponse from '../interfaces/IDiscoverMoviesResponse';
-import IGenre from '../interfaces/IGenre';
 
+import ISearchMoviesResponse from '../interfaces/ISearchMoviesResponse';
+import IGenre from '../interfaces/IGenre';
 import IMovie from '../interfaces/IMovie';
 import IMovieDetails from '../interfaces/IMovieDetails';
 import IMovieDetailsResponse from '../interfaces/IMovieDetailsResponse';
@@ -10,7 +10,6 @@ import IMovieResponse from '../interfaces/IMovieResponse';
 import ISearchMovies from '../interfaces/ISearchMovies';
 import ISpokenLanguages from '../interfaces/ISpokenLanguages';
 
-import movieMock from '../mock/movie';
 import { getGenresByIDs } from '../utils/getGenre';
 
 const tmdb = axios.create({
@@ -19,31 +18,26 @@ const tmdb = axios.create({
 
 export async function searchMoviesByTitle(
   searchText: string,
-  page?: number
-): Promise<IMovie[]> {
-  return [movieMock, movieMock, movieMock];
+  pageRequest?: number
+): Promise<ISearchMovies> {
+  const apiKey = process.env.REACT_APP_API_KEY;
 
-  // const apiKey = process.env.REACT_APP_API_KEY;
+  const response = await tmdb.get<ISearchMoviesResponse>(
+    `search/movie?api_key=${apiKey}` +
+      `&language=pt` +
+      `&query=${searchText}` +
+      `&page=${pageRequest ?? 1}`
+  );
 
-  // const res: IMovieResponse = (
-  //   await tmdb.get<IMovieResponse>(`movie/284053?api_key=${apiKey}&language=pt`)
-  // ).data;
+  const { page, results, total_pages, total_results } = response.data;
+  const movies = await parseMovies(results);
 
-  // const movie = parseMovie(res);
-
-  // // tmdb
-  // //   .get<IMovieResponse>(`movie/284053?api_key=${apiKey}`)
-  // //   .then(({ data }) => {
-  // //     res = parseMovie(data);
-  // //   });
-
-  // // tmdb
-  // //   .get(`search/movie?api_key=${apiKey}&query=${search}&page=${page ?? 1}`)
-  // //   .then((res) => {
-  // //     console.log(res.data);
-  // //   });
-
-  // return movie;
+  return {
+    movies,
+    page,
+    totalPages: total_pages,
+    totalMovies: total_results
+  };
 }
 //-----------------------------------------------------------------------------
 export async function searchMoviesByGenre(
@@ -58,7 +52,7 @@ export async function searchMoviesByGenre(
   for (let i = 1; i < genres.length; i++)
     genresString = genresString + ',' + genres[i].id;
 
-  const response = await tmdb.get<IDiscoverMoviesResponse>(
+  const response = await tmdb.get<ISearchMoviesResponse>(
     `discover/movie?api_key=${apiKey}` +
       `&language=pt` +
       `&sort_by=popularity.desc` +
@@ -219,6 +213,7 @@ function getVideo(
   video: { results: { key: string }[] } | undefined
 ): string | undefined {
   if (!video) return;
+  if (!video.results.length) return;
 
   return `https://www.youtube.com/embed/${video.results[0].key}`;
 }
