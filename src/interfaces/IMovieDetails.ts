@@ -6,6 +6,7 @@ interface IMovieDetails extends IMovie {
   runtime?: number;
   budget?: number;
   revenue?: number;
+  video?: string;
 }
 
 export default IMovieDetails;

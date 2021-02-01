@@ -92,7 +92,7 @@ export async function getMovieDetails(movieID: number): Promise<IMovieDetails> {
   const apiKey = process.env.REACT_APP_API_KEY;
 
   const response = await tmdb.get<IMovieDetailsResponse>(
-    `movie/${movieID}?api_key=${apiKey}&language=pt`
+    `movie/${movieID}?api_key=${apiKey}&language=pt&append_to_response=videos`
   );
 
   const movieDetails = parseMovieDetails(response.data);
@@ -149,7 +149,8 @@ function parseMovieDetails(
     spoken_languages,
     runtime,
     budget,
-    revenue
+    revenue,
+    videos
   } = movieDetailsResponse;
 
   return {
@@ -164,7 +165,8 @@ function parseMovieDetails(
     languages: getLanguageNames(spoken_languages),
     runtime,
     budget,
-    revenue
+    revenue,
+    video: getVideo(videos)
   };
 }
 //-----------------------------------------------------------------------------
@@ -211,4 +213,12 @@ function getLanguageNames(
   languages.forEach((language) => languagesName.push(language.name));
 
   return languagesName;
+}
+//-----------------------------------------------------------------------------
+function getVideo(
+  video: { results: { key: string }[] } | undefined
+): string | undefined {
+  if (!video) return;
+
+  return `https://www.youtube.com/embed/${video.results[0].key}`;
 }

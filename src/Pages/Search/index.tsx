@@ -44,8 +44,6 @@ const Search = () => {
             setMovies(response.movies);
             setTotalPages(response.totalPages);
           }
-
-          console.log(response.movies);
         } else {
           setMovies([]);
           setTotalPages(0);

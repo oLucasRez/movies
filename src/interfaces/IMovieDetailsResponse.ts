@@ -14,6 +14,7 @@ interface IMovieDetailsResponse {
   runtime?: number;
   budget?: number;
   revenue?: number;
+  videos?: { results: { key: string }[] };
 }
 
 export default IMovieDetailsResponse;

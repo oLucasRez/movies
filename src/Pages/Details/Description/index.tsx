@@ -10,20 +10,10 @@ import { getMovieDetails } from '../../../services/tmdb';
 import IMovie from '../../../interfaces/IMovie';
 
 interface DescriptionProps extends HTMLAttributes<HTMLElement> {
-  movie: IMovie;
+  movie: IMovieDetails;
 }
 //=============================================================================
 const Description: FC<DescriptionProps> = ({ movie, ...props }) => {
-  const [movieDetails, setMovieDetails] = useState<IMovieDetails>(movie);
-
-  useEffect(() => {
-    (async () => {
-      const movieDetails = await getMovieDetails(movie.id);
-
-      setMovieDetails(movieDetails);
-    })();
-  }, []);
-
   const getRuntime = (time: number | undefined) => {
     if (time) {
       const minutes = time % 60;
@@ -39,36 +29,36 @@ const Description: FC<DescriptionProps> = ({ movie, ...props }) => {
   };
 
   const getProfit = () => {
-    if (movieDetails.revenue && movieDetails.budget)
-      return getCurrency(movieDetails.revenue - movieDetails.budget);
+    if (movie.revenue && movie.budget)
+      return getCurrency(movie.revenue - movie.budget);
     else return 'NA';
   };
 
   return (
     <div {...props} className="description-container">
       <h1 className="title">Sinopse</h1>
-      <p>{movieDetails.overview}</p>
+      <p>{movie.overview}</p>
       <h1 className="title">Informações</h1>
       <div className="info-container">
         <div>
           <h1 className="title">Situação</h1>
-          <p>{movieDetails.status ?? 'NA'}</p>
+          <p>{movie.status ?? 'NA'}</p>
         </div>
         <div>
           <h1 className="title">Idioma</h1>
-          <p>{movieDetails.languages ? movieDetails.languages[0] : 'NA'}</p>
+          <p>{movie.languages ? movie.languages[0] : 'NA'}</p>
         </div>
         <div>
           <h1 className="title">Duração</h1>
-          <p>{getRuntime(movieDetails.runtime)}</p>
+          <p>{getRuntime(movie.runtime)}</p>
         </div>
         <div>
           <h1 className="title">Orçamento</h1>
-          <p>{getCurrency(movieDetails.budget)}</p>
+          <p>{getCurrency(movie.budget)}</p>
         </div>
         <div>
           <h1 className="title">Receita</h1>
-          <p>{getCurrency(movieDetails.revenue)}</p>
+          <p>{getCurrency(movie.revenue)}</p>
         </div>
         <div>
           <h1 className="title">Lucro</h1>
@@ -77,14 +67,14 @@ const Description: FC<DescriptionProps> = ({ movie, ...props }) => {
       </div>
       <div className="tagvote-container">
         <div className="tags-container">
-          {movieDetails.genres?.map((genre) => (
+          {movie.genres?.map((genre) => (
             <Tag className="title" key={genre.id}>
               {genre.name}
             </Tag>
           ))}
         </div>
         <div className="vote-container">
-          <Circle size={7}>{movieDetails.voteAverage}</Circle>
+          <Circle size={7}>{movie.voteAverage}</Circle>
         </div>
       </div>
     </div>
