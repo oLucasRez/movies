@@ -29,24 +29,32 @@ export async function getGenreByID(
   return genre;
 }
 //-----------------------------------------------------------------------------
-// function everyGenresFoundInStorage(genreIDs: number[]): boolean {
-//   const storageGenres = getStorageGenres();
+export async function getGenreByName(
+  genreName: string
+): Promise<IGenre[] | undefined> {
+  if (!genreFoundInStorage(genreName)) await updateStorageGenres();
 
-//   if (!storageGenres.length) return false;
+  const genre = getStorageGenres().filter(({ name }) => {
+    const treatedName = removeSpecialChar(name.toUpperCase());
+    const treatedGenre = removeSpecialChar(genreName.toString().toUpperCase());
 
-//   const everyGenresFound = genreIDs.every((genreID) =>
-//     genreFoundInStorage(genreID)
-//   );
+    return treatedName.includes(treatedGenre);
+  });
 
-//   return everyGenresFound;
-// }
+  return genre;
+}
 //-----------------------------------------------------------------------------
-function genreFoundInStorage(genreID: number): boolean {
+function genreFoundInStorage(genre: number | string): boolean {
   const storageGenres = getStorageGenres();
 
   if (!storageGenres.length) return false;
 
-  const genreFound = storageGenres.some(({ id }) => genreID === id);
+  const genreFound = storageGenres.some(({ id, name }) => {
+    const treatedName = removeSpecialChar(name.toUpperCase());
+    const treatedGenre = removeSpecialChar(genre.toString().toUpperCase());
+
+    return genre === id || treatedName.includes(treatedGenre);
+  });
 
   return genreFound;
 }
@@ -64,4 +72,8 @@ async function updateStorageGenres() {
 //-----------------------------------------------------------------------------
 function setStorageGenres(genres: IGenre[]) {
   localStorage.setItem(key, JSON.stringify(genres));
+}
+//-----------------------------------------------------------------------------
+function removeSpecialChar(string: string): string {
+  return string.normalize('NFD').replace(/[^a-zA-Zs]/g, '');
 }

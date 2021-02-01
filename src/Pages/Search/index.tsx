@@ -7,30 +7,51 @@ import Navigator from '../../components/Navigator';
 
 import { searchMoviesByGenre } from '../../services/tmdb';
 
-import { getGenresByIDs } from '../../utils/getGenre';
+import { getGenreByName } from '../../utils/getGenre';
 
 import './styles.css';
-import movie from '../../mock/movie';
 import PageContext from '../../contexts/PageContext';
+import IGenre from '../../interfaces/IGenre';
 //=============================================================================
 const Search = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [query, setQuery] = useState('');
+
+  // useEffect(() => {
+  //   (async () => {
+  //     searchMoviesByGenre
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async () => {
-      const genres = await getGenresByIDs([16, 28]);
+      if (query.length > 1) {
+        const genres = await getGenreByName(query);
+        if (genres) searchWithGenre(genres);
+      }
+    })();
+  }, [query]);
 
-      if (genres)
-        searchMoviesByGenre(genres, currentPage).then((response) => {
-          if (response) {
+  const searchWithGenre = async (genres: IGenre[]) => {
+    if (genres)
+      searchMoviesByGenre(genres, currentPage).then((response) => {
+        if (response) {
+          const nothingChanges =
+            JSON.stringify(response.movies) !== JSON.stringify(movies);
+          if (nothingChanges) {
             setMovies(response.movies);
             setTotalPages(response.totalPages);
           }
-        });
-    })();
-  }, []);
+
+          console.log(response.movies);
+        } else {
+          setMovies([]);
+          setTotalPages(0);
+        }
+      });
+  };
 
   // const getMoviePage = () => {
   //   // let displayPageNumber = 0;
@@ -56,17 +77,24 @@ const Search = () => {
     <main className="search-container">
       <input
         className="title"
-        placeholder="Busque um filme por nome, ano ou gênero"
+        placeholder="Busque um filme por nome, ano ou gênero..."
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <ul>
-        {movies.map((movie, index) => {
-          if (index > 4) return null;
-
-          return <Card key={movie.id} movie={movie} />;
-        })}
-      </ul>
       <PageContext.Provider value={[currentPage, setCurrentPage]}>
-        <Navigator totalPages={totalPages} />
+        {movies.length ? (
+          <>
+            <ul>
+              {movies.map((movie, index) => {
+                if (index > 4) return null;
+
+                return <Card key={movie.id} movie={movie} />;
+              })}
+            </ul>
+            <Navigator totalPages={totalPages} />
+          </>
+        ) : (
+          <p>sem resultados</p>
+        )}
       </PageContext.Provider>
     </main>
   );

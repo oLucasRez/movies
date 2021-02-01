@@ -25,6 +25,12 @@
   list-style-type: none;
 }
 
+.search-container p {
+  cursor: default;
+
+  color: var(--gray-3);
+}
+
 .search-container ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: var(--blue);

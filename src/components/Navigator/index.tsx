@@ -34,10 +34,10 @@ const Navigator: FC<NavigatorProps> = ({ totalPages, ...props }) => {
 
   return (
     <div {...props} className="navigator-container">
-      {[1, 2, 3, 4, 5].map((number) => {
+      {[1, 2, 3, 4, 5].map((number, index) => {
         if (number === currentPage)
           return (
-            <Circle className="main-number" size={4}>
+            <Circle key={index} className="main-number" size={4}>
               {number}
             </Circle>
           );

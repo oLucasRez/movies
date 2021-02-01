@@ -1,4 +1,4 @@
-import { FC, LiHTMLAttributes } from 'react';
+import { FC, LiHTMLAttributes, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import IMovie from '../../interfaces/IMovie';
@@ -20,7 +20,6 @@ const Card: FC<CardProps> = (props) => {
   return (
     <li {...props} className="card-container">
       <img src={movie.posterPath} alt={movie.title} />
-      {/* <div className="info-container"> */}
       <Link className="header" to={`/${movie.id}`}>
         <Circle className="vote-container" size={5}>
           {movie.voteAverage}
@@ -38,9 +37,8 @@ const Card: FC<CardProps> = (props) => {
           ))}
         </div>
       </main>
-      {/* </div> */}
     </li>
   );
 };
 
-export default Card;
+export default memo(Card);
