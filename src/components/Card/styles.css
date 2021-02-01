@@ -1,77 +1,67 @@
 .card-container {
-  width: 100%;
-  height: 22rem;
+  /* width: 100%; */
 
   display: grid;
+  grid-template-columns: 17rem auto;
+  grid-template-rows: max-content auto;
+  grid-template-areas: 'img header' 'img main';
   cursor: default;
-  grid-template-columns: 25% auto;
-  grid-template-areas: 'image info';
+  /* grid-template-columns: 25% auto;
+  grid-template-areas: 'image info'; */
 
   background: var(--gray-1);
 }
-
-/* .card-container:hover {
-  transform: scale(0.99);
-  transition: 0.1s;
-} */
 
 .card-container + .card-container {
   margin-top: var(--size-3);
 }
 
-.card-container .image-container {
-  height: 100%;
+.card-container img {
+  width: 17rem;
+  height: 25rem;
+  z-index: 10;
 
-  background-position: center;
-  background-size: cover;
+  grid-area: img;
 }
 
-.card-container .info-container {
+.card-container .header {
   width: 100%;
 
-  display: flex;
-  flex-direction: column;
-}
-
-.card-container .info-container .header {
-  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  grid-area: header;
 
   background: var(--blue);
   color: var(--lightblue);
 }
 
-.card-container .info-container .header:hover {
+.card-container .header:hover {
   cursor: pointer;
 
   background: var(--darkblue);
   transition: 0.2s;
 }
 
-.card-container .info-container .header .vote-container {
+.card-container .header .vote-container {
   margin: 0 var(--size-0);
 
   transform: translateY(50%);
 }
 
-.card-container .info-container .header .text {
+.card-container .header .text {
+  max-width: 80%;
+
   display: flex;
   flex-direction: column;
 }
 
-.card-container .info-container .header .text h2 {
+.card-container .header .text h2 {
   transform: translateY(var(--size-1));
   font-size: var(--size-3);
-
-  text-overflow: ellipsis; /* will make [...] at the end */
-  max-width: 38rem;
-  white-space: nowrap; /* paragraph to one line */
-  overflow: hidden; /* older browsers */
 }
 
-.card-container .info-container .header .text h1 {
+.card-container .header .text h1 {
   display: flex;
   flex-direction: column;
 
@@ -81,9 +71,11 @@
   opacity: 0.6;
 }
 
-.card-container .info-container main {
+.card-container main {
   width: 100%;
   height: 100%;
+
+  grid-area: main;
   padding: var(--size-3) var(--size-2);
   padding-bottom: 0;
 
@@ -91,13 +83,42 @@
   color: var(--gray-3);
 }
 
-.card-container .info-container main p {
-  max-height: var(--size-5);
-  overflow-y: scroll;
-}
-
 .card-container .tags-container {
-  margin-top: var(--size-0);
+  margin: var(--size-1) 0 var(--size-3);
 
   display: flex;
+}
+
+@media only screen and (max-width: 1020px) {
+  .card-container {
+    grid-template-columns: auto;
+    grid-template-rows: max-content 3rem 25rem auto;
+    grid-template-areas: 'header' 'space' 'img' 'main';
+    cursor: default;
+
+    background: var(--gray-1);
+  }
+
+  .card-container img {
+    justify-self: center;
+  }
+
+  .card-container .header {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .card-container .header .text h2 {
+    text-align: center;
+    margin-bottom: var(--size-3);
+  }
+
+  .card-container .header .text h1 {
+    text-align: right;
+  }
+
+  .card-container .header .vote-container {
+    z-index: 15;
+    position: absolute;
+  }
 }

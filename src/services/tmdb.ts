@@ -7,6 +7,7 @@ import IMovie from '../interfaces/IMovie';
 import IMovieDetails from '../interfaces/IMovieDetails';
 import IMovieDetailsResponse from '../interfaces/IMovieDetailsResponse';
 import IMovieResponse from '../interfaces/IMovieResponse';
+import ISearchMovies from '../interfaces/ISearchMovies';
 import ISpokenLanguages from '../interfaces/ISpokenLanguages';
 
 import movieMock from '../mock/movie';
@@ -47,8 +48,8 @@ export async function searchMoviesByTitle(
 //-----------------------------------------------------------------------------
 export async function searchMoviesByGenre(
   genres: IGenre[],
-  page?: number
-): Promise<IMovie[] | undefined> {
+  pageRequest?: number
+): Promise<ISearchMovies | undefined> {
   if (!genres.length) return;
 
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -62,13 +63,19 @@ export async function searchMoviesByGenre(
       `&language=pt` +
       `&sort_by=popularity.desc` +
       `&include_adult=true` +
-      `&page=${page ?? 1}` +
+      `&page=${pageRequest ?? 1}` +
       `&with_genres=${genresString}`
   );
 
-  const movies = parseMovies(response.data.results);
+  const { page, results, total_pages, total_results } = response.data;
+  const movies = await parseMovies(results);
 
-  return movies;
+  return {
+    movies,
+    page,
+    totalPages: total_pages,
+    totalMovies: total_results
+  };
 }
 //-----------------------------------------------------------------------------
 export async function getAllGenres(): Promise<IGenre[]> {

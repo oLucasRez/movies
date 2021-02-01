@@ -19,31 +19,26 @@ const Card: FC<CardProps> = (props) => {
 
   return (
     <li {...props} className="card-container">
-      <div
-        className="image-container"
-        style={{
-          backgroundImage: `url(${movie.posterPath})`
-        }}
-      />
-      <div className="info-container">
-        <Link className="header" to={`/${movie.id}`}>
-          <Circle className="vote-container" size={5}>
-            {movie.voteAverage}
-          </Circle>
-          <div className="text">
-            <h2 className="title">{movie.title}</h2>
-            <h1>{movie.releaseDate}</h1>
-          </div>
-        </Link>
-        <main>
-          <p>{movie.overview}</p>
-          <div className="tags-container">
-            {movie.genres?.map((genre) => (
-              <Tag key={genre.id}>{genre.name}</Tag>
-            ))}
-          </div>
-        </main>
-      </div>
+      <img src={movie.posterPath} alt={movie.title} />
+      {/* <div className="info-container"> */}
+      <Link className="header" to={`/${movie.id}`}>
+        <Circle className="vote-container" size={5}>
+          {movie.voteAverage}
+        </Circle>
+        <div className="text">
+          <h2 className="title">{movie.title}</h2>
+          <h1>{movie.releaseDate}</h1>
+        </div>
+      </Link>
+      <main>
+        <p>{movie.overview}</p>
+        <div className="tags-container">
+          {movie.genres?.map((genre) => (
+            <Tag key={genre.id}>{genre.name}</Tag>
+          ))}
+        </div>
+      </main>
+      {/* </div> */}
     </li>
   );
 };

@@ -8,6 +8,7 @@
 .app-container .app-header {
   width: 100%;
   height: var(--size-4);
+  z-index: 20;
 
   display: grid;
   align-items: center;

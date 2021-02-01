@@ -2,6 +2,8 @@
   max-width: var(--size-10);
   margin: var(--size-3) var(--size-2) 0;
 
+  cursor: default;
+
   background: var(--gray-0);
 }
 
