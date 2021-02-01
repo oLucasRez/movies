@@ -38,27 +38,27 @@ const Description: FC<DescriptionProps> = ({ movie, ...props }) => {
       <p>{movie.overview}</p>
       <h1 className="title">Informações</h1>
       <div className="info-container">
-        <div>
+        <div className="info">
           <h1 className="title">Situação</h1>
           <p>{movie.status ?? 'NA'}</p>
         </div>
-        <div>
+        <div className="info">
           <h1 className="title">Idioma</h1>
           <p>{movie.languages ? movie.languages[0] : 'NA'}</p>
         </div>
-        <div>
+        <div className="info">
           <h1 className="title">Duração</h1>
           <p>{getRuntime(movie.runtime)}</p>
         </div>
-        <div>
+        <div className="info">
           <h1 className="title">Orçamento</h1>
           <p>{getCurrency(movie.budget)}</p>
         </div>
-        <div>
+        <div className="info">
           <h1 className="title">Receita</h1>
           <p>{getCurrency(movie.revenue)}</p>
         </div>
-        <div>
+        <div className="info">
           <h1 className="title">Lucro</h1>
           <p>{getProfit()}</p>
         </div>

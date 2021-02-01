@@ -1,5 +1,6 @@
 .tag-container {
   height: var(--size-2);
+  margin: 0 var(--size-0) var(--size-0) 0;
   padding: 0 var(--size-0);
 
   display: inline-flex;
@@ -10,8 +11,4 @@
   border-radius: 1001px;
   border: 1px solid var(--blue);
   color: var(--blue);
-}
-
-.tag-container + .tag-container {
-  margin-left: var(--size-0);
 }

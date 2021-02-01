@@ -1,13 +1,9 @@
 .card-container {
-  /* width: 100%; */
-
   display: grid;
   grid-template-columns: 17rem auto;
   grid-template-rows: max-content auto;
   grid-template-areas: 'img header' 'img main';
   cursor: default;
-  /* grid-template-columns: 25% auto;
-  grid-template-areas: 'image info'; */
 
   background: var(--gray-1);
 }
@@ -86,7 +82,7 @@
 .card-container .tags-container {
   margin: var(--size-1) 0 var(--size-3);
 
-  display: flex;
+  display: block;
 }
 
 @media only screen and (max-width: 1020px) {
