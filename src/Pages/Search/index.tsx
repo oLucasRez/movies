@@ -7,6 +7,8 @@ import Navigator from '../../components/Navigator';
 
 import { searchMoviesByGenre, searchMoviesByTitle } from '../../services/tmdb';
 
+import useStorageState from '../../hooks/useStorageState';
+
 import { getGenreByName } from '../../utils/getGenre';
 
 import './styles.css';
@@ -17,35 +19,38 @@ const Search = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [query, setQuery] = useState('');
-
-  const [loaded, setLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     searchMoviesByGenre
-  //   })();
-  // }, []);
+  const [query, setQuery] = useStorageState('query', '');
 
   useEffect(() => {
-    // setLoaded(false);
     (async () => {
-      searchWithTitle('thor');
-
-      // if (query.length > 1) {
-      //   const genres = await getGenreByName(query);
-      //   if (genres?.length) searchWithGenre(genres);
-      //   else searchWithTitle(query);
-      //   // setLoaded(true);
-      // }
+      if (query.length > 1) {
+        setCurrentPage(1);
+        const genres = await getGenreByName(query);
+        if (genres?.length) searchWithGenre(genres);
+        else searchWithTitle(query);
+      }
     })();
   }, [query]);
 
-  console.log('render');
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    (async () => {
+      if (!getRelativePage(currentPage)) {
+        const genres = await getGenreByName(query);
+        if (genres?.length) searchWithGenre(genres);
+        else searchWithTitle(query);
+      }
+    })();
+  }, [currentPage]);
+
+  const parseBuffer = (page: number) => parseInt((page / 4 + 1).toFixed(0));
+  const getRelativePage = (page: number) => (page - 1) % 4;
 
   const searchWithGenre = async (genres: IGenre[]) => {
+    const bufferRequest = parseBuffer(currentPage);
+
     if (genres)
-      searchMoviesByGenre(genres, currentPage).then((response) => {
+      searchMoviesByGenre(genres, bufferRequest).then((response) => {
         if (response) {
           const somethingChanges =
             JSON.stringify(response.movies) !== JSON.stringify(movies);
@@ -61,9 +66,9 @@ const Search = () => {
   };
 
   const searchWithTitle = async (query: string) => {
-    const response = await searchMoviesByTitle(query);
+    const bufferRequest = parseBuffer(currentPage);
 
-    console.log(response);
+    const response = await searchMoviesByTitle(query, bufferRequest);
 
     const somethingChanges =
       JSON.stringify(response.movies) !== JSON.stringify(movies);
@@ -73,26 +78,6 @@ const Search = () => {
       setTotalPages(response.totalPages);
     }
   };
-
-  // const getMoviePage = () => {
-  //   // let displayPageNumber = 0;
-  //   const _movies = [...movies];
-
-  //   let pages = [];
-  //   let moviesPerPage = [];
-
-  //   while (_movies.length) {
-  //     for (let i = 0; i < 5; i++) {
-  //       const popped = _movies.pop();
-  //       if (popped) moviesPerPage.push(popped);
-  //       console.log(popped?.title);
-  //     }
-  //     pages.push(moviesPerPage);
-  //     console.log('page');
-  //   }
-
-  //   return pages;
-  // };
 
   return (
     <main className="search-container">
@@ -105,11 +90,14 @@ const Search = () => {
         {movies.length ? (
           <>
             <ul>
-              {movies.map((movie, index) => {
-                if (index > 4) return null;
-
-                return <Card key={movie.id} movie={movie} />;
-              })}
+              {movies
+                .slice(
+                  getRelativePage(currentPage) * 5,
+                  getRelativePage(currentPage) * 5 + 5
+                )
+                .map((movie) => {
+                  return <Card key={movie.id} movie={movie} />;
+                })}
             </ul>
             <Navigator totalPages={totalPages} />
           </>

@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useContext, useState } from 'react';
+import { FC, HTMLAttributes, useContext } from 'react';
 
 import PageContext from '../../contexts/PageContext';
 import Circle from '../Circle';
@@ -9,8 +9,7 @@ interface NavigatorProps extends HTMLAttributes<HTMLElement> {
   totalPages: number;
 }
 //=============================================================================
-const Navigator: FC<NavigatorProps> = ({ ...props }) => {
-  const totalPages = 7;
+const Navigator: FC<NavigatorProps> = ({ totalPages, ...props }) => {
   const [currentPage, setCurrentPage] = useContext(PageContext);
 
   const showFirst = () => totalPages > 5 && (currentPage ?? 1) > 3;
