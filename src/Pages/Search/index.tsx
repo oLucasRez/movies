@@ -19,6 +19,8 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [query, setQuery] = useState('');
 
+  const [loaded, setLoaded] = useState(false);
+
   // useEffect(() => {
   //   (async () => {
   //     searchMoviesByGenre
@@ -26,22 +28,28 @@ const Search = () => {
   // }, []);
 
   useEffect(() => {
+    // setLoaded(false);
     (async () => {
-      if (query.length > 1) {
-        const genres = await getGenreByName(query);
-        if (genres?.length) searchWithGenre(genres);
-        else searchWithTitle(query);
-      }
+      searchWithTitle('thor');
+
+      // if (query.length > 1) {
+      //   const genres = await getGenreByName(query);
+      //   if (genres?.length) searchWithGenre(genres);
+      //   else searchWithTitle(query);
+      //   // setLoaded(true);
+      // }
     })();
   }, [query]);
+
+  console.log('render');
 
   const searchWithGenre = async (genres: IGenre[]) => {
     if (genres)
       searchMoviesByGenre(genres, currentPage).then((response) => {
         if (response) {
-          const nothingChanges =
+          const somethingChanges =
             JSON.stringify(response.movies) !== JSON.stringify(movies);
-          if (nothingChanges) {
+          if (somethingChanges) {
             setMovies(response.movies);
             setTotalPages(response.totalPages);
           }
@@ -53,9 +61,17 @@ const Search = () => {
   };
 
   const searchWithTitle = async (query: string) => {
-    const _movies = await searchMoviesByTitle(query);
+    const response = await searchMoviesByTitle(query);
 
-    setMovies(_movies.movies);
+    console.log(response);
+
+    const somethingChanges =
+      JSON.stringify(response.movies) !== JSON.stringify(movies);
+
+    if (somethingChanges) {
+      setMovies(response.movies);
+      setTotalPages(response.totalPages);
+    }
   };
 
   // const getMoviePage = () => {

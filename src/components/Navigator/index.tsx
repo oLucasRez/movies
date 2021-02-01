@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useContext } from 'react';
+import { FC, HTMLAttributes, useContext, useState } from 'react';
 
 import PageContext from '../../contexts/PageContext';
 import Circle from '../Circle';
@@ -9,32 +9,60 @@ interface NavigatorProps extends HTMLAttributes<HTMLElement> {
   totalPages: number;
 }
 //=============================================================================
-const Navigator: FC<NavigatorProps> = ({ totalPages, ...props }) => {
+const Navigator: FC<NavigatorProps> = ({ ...props }) => {
+  const totalPages = 7;
   const [currentPage, setCurrentPage] = useContext(PageContext);
-  // const [numbers, setNumbers] = useState<number[]>([1]);
 
-  // const defineNumbers = () => {
-  //   if (!currentPage) return [];
+  const showFirst = () => totalPages > 5 && (currentPage ?? 1) > 3;
+  const showLast = () =>
+    totalPages > 5 && (currentPage ?? totalPages) < totalPages - 2;
 
-  //   const totalNumbers = totalPages < 11 ? totalPages : 11;
-  //   const _numbers: number[] = [];
+  const getMiddle = () => {
+    if (!currentPage) return [];
+    if (totalPages <= 5) {
+      let array: number[] = [];
+      for (let i = 1; i <= totalPages; i++) array.push(i);
+      return array;
+    }
 
-  //   for (
-  //     let i = currentPage - totalNumbers / 2;
-  //     i < currentPage + totalNumbers / 2;
-  //     i++
-  //   ) {
-  //     _numbers.push(i);
-  //   }
+    const o____ = currentPage === 1;
+    const _o___ = currentPage === 2;
+    const ___o_ = currentPage === totalPages - 1;
+    const ____o = currentPage === totalPages;
 
-  //   return _numbers;
-  // };
+    let a: number;
+    if (o____) a = 2;
+    else if (_o___) a = 1;
+    else if (___o_) a = -1;
+    else if (____o) a = -2;
+    else a = 0;
 
-  // console.log(defineNumbers());
+    return [
+      currentPage - 2 + a,
+      currentPage - 1 + a,
+      currentPage + a,
+      currentPage + 1 + a,
+      currentPage + 2 + a
+    ];
+  };
 
   return (
     <div {...props} className="navigator-container">
-      {[1, 2, 3, 4, 5].map((number, index) => {
+      {showFirst() ? (
+        <>
+          <div
+            className="side-number title"
+            onClick={() => {
+              if (setCurrentPage) setCurrentPage(1);
+            }}
+          >
+            1
+          </div>
+          ...
+        </>
+      ) : null}
+
+      {getMiddle().map((number, index) => {
         if (number === currentPage)
           return (
             <Circle key={index} className="main-number" size={4}>
@@ -53,8 +81,20 @@ const Navigator: FC<NavigatorProps> = ({ totalPages, ...props }) => {
           </div>
         );
       })}
-      ...
-      <div className="side-number title">{totalPages}</div>
+
+      {showLast() ? (
+        <>
+          ...
+          <div
+            className="side-number title"
+            onClick={() => {
+              if (setCurrentPage) setCurrentPage(totalPages);
+            }}
+          >
+            {totalPages}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };
