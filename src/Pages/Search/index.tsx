@@ -1,6 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import IMovie from '../../interfaces/IMovie';
+import { useCallback, useEffect, useState } from 'react';
 
 import Card from '../../components/Card';
 import Navigator from '../../components/Navigator';
